@@ -132,3 +132,115 @@
 	-   *Callback:* common pattern in asynchronous operations
 	-   *State Machine:* manage different states
 	- *Observer*
+
+### Common Patterns:
+#### Singleton Pattern
+*Sequence Diagram Illustration:*
+```mermaid
+sequenceDiagram
+participant Client
+participant Singleton
+Client->>Singleton: getInstance()
+Note right of Singleton: If instance doesn't exist,<br/>create it.
+Singleton-->>Client: Return instance
+```
+*Pseudocode Illustration:*
+```java
+class Singleton
+    private static instance: Singleton = null
+    private constructor()
+    public static getInstance()
+        if (instance == null)
+            instance = new Singleton()
+        return instance
+int main() {
+	singletonInstance = Singleton.getInstance()
+}
+```
+#### Observer Pattern
+*Sequence Diagram Illustration:*
+```mermaid
+sequenceDiagram
+participant Subject
+participant Observer1
+participant Observer2
+
+Subject->>Observer1: attach(observer1)
+Subject->>Observer2: attach(observer2)
+Note right of Subject: When state changes
+Subject->>Observer1: notify()
+Subject->>Observer2: notify()
+```
+*Pseudocode Illustration:*
+```java
+interface Observer
+    method update(subject: Subject)
+
+class ConcreteObserver implements Observer
+    method update(subject: Subject)
+class Subject
+    private observers: list of Observer = []
+    method attach(observer: Observer)
+        observers.add(observer)
+    method detach(observer: Observer)
+        observers.remove(observer)
+    method notifyObservers()
+        for each observer in observers
+            observer.update(this)
+subject = new Subject()
+observer1 = new ConcreteObserver()
+observer2 = new ConcreteObserver()
+subject.attach(observer1)
+subject.attach(observer2)
+subject.notifyObservers()
+```
+#### Composite Pattern
+*Sequence Diagram Illustration:*
+```mermaid
+sequenceDiagram
+participant Client
+participant Composite
+participant Leaf1
+participant Leaf2
+
+Client->>Composite: operation()
+Composite->>Leaf1: operation()
+Composite->>Leaf2: operation()
+Note right of Composite: Composite forwards<br/>request to its children
+Leaf1-->>Composite: Result
+Leaf2-->>Composite: Result
+Composite-->>Client: Result
+```
+*Pseudocode Illustration:*
+```java
+interface Component
+    method operation()
+class Leaf implements Component
+    method operation()
+class Composite implements Component
+    private children: list of Component = []
+    method operation()
+        for each child in children
+            child.operation()
+    method add(component: Component)
+        children.add(component)
+    method remove(component: Component)
+        children.remove(component)
+composite = new Composite()
+leaf1 = new Leaf()
+leaf2 = new Leaf()
+composite.add(leaf1)
+composite.add(leaf2)
+composite.operation()
+```
+
+
+
+
+
+
+
+
+
+
+
