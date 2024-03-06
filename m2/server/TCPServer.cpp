@@ -45,8 +45,34 @@ void TCPServer::start() const
         return;
     }
 
+    handleClient(new_socket);
+
     close(new_socket);
     close(server_fd);
+}
+
+void TCPServer::handleClient(int clientSocket) const
+{
+    const int BUFFER_SIZE = 1024;
+    char buffer[BUFFER_SIZE];
+
+    while (true)
+    {
+        memset(buffer, 0, BUFFER_SIZE);
+        int bytesReceived = recv(clientSocket, buffer, BUFFER_SIZE, 0);
+        if (bytesReceived <= 0)
+        {
+            std::cerr << "Error in recv() or client disconnected." << std::endl;
+            break;
+        }
+        // Echo the received message back to the client
+        send(clientSocket, buffer, bytesReceived, 0);
+        // Logging received message
+        if (loggingEnabled)
+        {
+            std::cout << "Received message: " << buffer << std::endl;
+        }
+    }
 }
 
 TCPServer::TCPServer(int p, int mc, bool le)
