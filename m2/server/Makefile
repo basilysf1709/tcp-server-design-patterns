@@ -1,7 +1,7 @@
 C = g++
 CFLAGS = -Wall -std=c++11
 TARGET = TCPServer
-SRC = main.cpp TCPServer.cpp
+SRC = main.cpp TCPServer.cpp ServerDecorator.cpp Logger.cpp
 
 # Default target
 all: $(TARGET)

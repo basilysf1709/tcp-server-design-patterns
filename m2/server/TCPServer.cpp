@@ -2,16 +2,13 @@
 
 void TCPServer::start() const
 {
-    std::cout << "Starting server at port: " << port
-              << "\nwith max " << maxConnections << " connections"
-              << (loggingEnabled ? "\nLogging is enabled" : "\nLogging is disabled.")
-              << std::endl;
+    Logger::getInstance().logMessage("Starting server at port: " + std::to_string(port) + "\nwith max " + std::to_string(maxConnections) + " connections" + (loggingEnabled ? "\nLogging is enabled" : "\nLogging is disabled."));
 
     // Creating Socket
     int server_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (server_fd == 0)
     {
-        std::cerr << "Socket creation failed." << std::endl;
+        Logger::getInstance().logMessage("Socket creation failed.");
         return;
     }
 
@@ -25,7 +22,7 @@ void TCPServer::start() const
 
     if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0)
     {
-        std::cerr << "Bind failed." << std::endl;
+        Logger::getInstance().logMessage("Bind failed.");
         return;
     }
 
@@ -41,7 +38,7 @@ void TCPServer::start() const
     int new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t *)&addrlen);
     if (new_socket < 0)
     {
-        std::cerr << "Accept failed." << std::endl;
+        Logger::getInstance().logMessage("Accept failed.");
         return;
     }
 
@@ -62,10 +59,10 @@ void TCPServer::handleClient(int clientSocket) const
         int bytesReceived = recv(clientSocket, buffer, BUFFER_SIZE, 0);
         if (bytesReceived <= 0)
         {
-            std::cerr << "Client disconnected." << std::endl;
+            Logger::getInstance().logMessage("Client disconnected.");
             break;
         }
-        
+
         // bytesReceived += ": Server got your message";
         send(clientSocket, buffer, bytesReceived, 0);
         // Logging received message
