@@ -62,10 +62,11 @@ void TCPServer::handleClient(int clientSocket) const
         int bytesReceived = recv(clientSocket, buffer, BUFFER_SIZE, 0);
         if (bytesReceived <= 0)
         {
-            std::cerr << "Error in recv() or client disconnected." << std::endl;
+            std::cerr << "Client disconnected." << std::endl;
             break;
         }
-        // Echo the received message back to the client
+        
+        // bytesReceived += ": Server got your message";
         send(clientSocket, buffer, bytesReceived, 0);
         // Logging received message
         if (loggingEnabled)
