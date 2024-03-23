@@ -3,7 +3,7 @@
 #include "TCPServer.h"
 
 
-ServerDecorator::ServerDecorator(ServerDecorator *server) : wrappedServer(server) {}
+ServerDecorator::ServerDecorator(IServer *server) : wrappedServer(server) {}
 
 void ServerDecorator::start() const {
     if (wrappedServer) {
@@ -17,7 +17,7 @@ void ServerDecorator::handleClient(int clientSocket) const {
     }
 }
 
-SecurityServerDecorator::SecurityServerDecorator(ServerDecorator *decorator) : ServerDecorator(decorator) {}
+SecurityServerDecorator::SecurityServerDecorator(IServer *decorator) : ServerDecorator(decorator) {}
 
 void SecurityServerDecorator::start() const {
     std::cout << "Security: Server is starting with enhanced security measures." << std::endl;

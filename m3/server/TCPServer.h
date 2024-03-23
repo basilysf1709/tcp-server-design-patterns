@@ -124,7 +124,7 @@ private:
 class ServerDecorator : public IServer
 {
 protected:
-    std::unique_ptr<ServerDecorator> wrappedServer;
+    IServer *wrappedServer;
 
 public:
     /**
@@ -132,7 +132,7 @@ public:
      * Wraps an existing server instance to add new behaviors.
      * @param server Pointer to the server to be decorated.
      */
-    ServerDecorator(ServerDecorator *server);
+    ServerDecorator(IServer *server);
     /**
      * @brief Destructor for ServerDecorator.
      */
@@ -153,7 +153,7 @@ public:
      * Initializes a new instance of SecurityServerDecorator, wrapping an existing server.
      * @param decorator The server instance to be decorated with additional security features.
      */
-    SecurityServerDecorator(ServerDecorator *decorator);
+    SecurityServerDecorator(IServer *decorator);
 
     /**
      * @brief Starts the decorated server with additional security features.

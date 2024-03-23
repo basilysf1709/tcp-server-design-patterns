@@ -1,5 +1,5 @@
 C = g++
-CFLAGS = -Wall -std=c++11
+CFLAGS = -Wall -std=c++14 -g
 TARGET = TCPServer
 SRC = main.cpp TCPServer.cpp ServerDecorator.cpp Logger.cpp
 

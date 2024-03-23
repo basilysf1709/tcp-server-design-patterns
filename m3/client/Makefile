@@ -4,7 +4,7 @@
 CC=g++
 
 # Compiler flags
-CFLAGS=-Wall -Wextra -std=c++11
+CFLAGS=-Wall -Wextra -std=c++14 -g
 
 # Target executable name
 TARGET=TCPClient
