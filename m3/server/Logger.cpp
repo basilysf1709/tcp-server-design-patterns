@@ -1,5 +1,8 @@
 #include "TCPServer.h"
 
+/**
+ * @brief Logger Constructor
+ */
 Logger::Logger() {}
 
 Logger& Logger::getInstance() {
