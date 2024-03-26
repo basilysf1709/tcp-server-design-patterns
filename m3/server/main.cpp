@@ -12,8 +12,12 @@ int main()
     // Decorate the TCPServer with the SecurityServerDecorator
     SecurityServerDecorator secureServer(&server);
 
+    EventLogger logger;
+    server.attach(&logger);
+
     // Start the server
     secureServer.start();
+    server.detach(&logger);
 
     // When main exits, the TCPServer instance (server) will be automatically destroyed.
     return 0;

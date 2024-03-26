@@ -60,10 +60,12 @@ void TCPServer::handleClient(int clientSocket) const
         if (bytesReceived <= 0)
         {
             Logger::getInstance().logMessage("Client disconnected.");
+            notify("Client disconnected."); 
             break;
         }
 
         // bytesReceived += ": Server got your message";
+        // notify("Subscribed events: Received Message, Connection working!"); 
         send(clientSocket, buffer, bytesReceived, 0);
         // Logging received message
         if (loggingEnabled)
@@ -98,3 +100,21 @@ TCPServer TCPServer::Builder::build() const
 {
     return TCPServer(port, maxConnections, loggingEnabled);
 }
+
+void TCPServer::attach(IObserver *observer) {
+    std::cout << "Observer: Subscribed to a Listener: Attached Mode!" << std::endl;
+    std::cout << "Observer: Storing events!" << std::endl;
+    observers.push_back(observer);
+}
+
+void TCPServer::detach(IObserver *observer) {
+    std::cout << "Observer: Unsubscribed to Listener: Detached!" << std::endl;
+    std::cout << "Observer: Deleting events!" << std::endl;
+}
+
+void TCPServer::notify(const std::string &message) const {
+    for (IObserver *observer : observers) {
+        observer->update(message);
+    }
+}
+

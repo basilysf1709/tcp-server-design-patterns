@@ -20,11 +20,11 @@ void ServerDecorator::handleClient(int clientSocket) const {
 SecurityServerDecorator::SecurityServerDecorator(IServer *decorator) : ServerDecorator(decorator) {}
 
 void SecurityServerDecorator::start() const {
-    std::cout << "Security: Server is starting with enhanced security measures." << std::endl;
+    std::cout << "Security (Decorator): Server is starting with enhanced security measures." << std::endl;
     ServerDecorator::start();
 }
 
 void SecurityServerDecorator::handleClient(int clientSocket) const {
-    std::cout << "Security: Securing client connection." << std::endl;
+    std::cout << "Security (Decorator: Securing client connection." << std::endl;
     ServerDecorator::handleClient(clientSocket);
 }

@@ -7,6 +7,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <memory>
+#include <vector>
 
 /**
  * @brief Interface for server implementations.
@@ -34,10 +35,30 @@ public:
     virtual ~IServer() {}
 };
 
+class IObserver {
+public:
+    virtual ~IObserver() {}
+    virtual void update(const std::string &message) = 0;
+};
+
+class ISubject {
+public:
+    virtual ~ISubject() {}
+    virtual void attach(IObserver *observer) = 0;
+    virtual void detach(IObserver *observer) = 0;
+    virtual void notify(const std::string &message) const = 0;
+};
+
+class EventLogger : public IObserver {
+public:
+    virtual ~EventLogger() override {} 
+    void update(const std::string &message) override;
+};
+
 /**
  * @brief TCP Server Class
  */
-class TCPServer : public IServer
+class TCPServer : public IServer, public ISubject
 {
 public:
     /**
@@ -56,6 +77,10 @@ public:
      * @param clientSocket The socket descriptor for the connected client.
      */
     virtual void handleClient(int clientSocket) const;
+    // Subject methods
+    void attach(IObserver *observer) override;
+    void detach(IObserver *observer) override;
+    void notify(const std::string &message) const override;
 
 private:
     int port;
@@ -69,6 +94,7 @@ private:
      * @param le Flag to enable or disable logging.
      */
     TCPServer(int p, int mc, bool le);
+    std::vector<IObserver *> observers;
 };
 /**
  * @brief Builder class for constructing TCPServer objects.
@@ -169,5 +195,7 @@ public:
      */
     void handleClient(int clientSocket) const override;
 };
+
+
 
 #endif
