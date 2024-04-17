@@ -13,7 +13,7 @@ int main()
     // Decorator Pattern
     SecurityServerDecorator secureServer(&server);
 
-    // Observer Pattern & Singleton Pattern
+    // Singleton Pattern & Observer Pattern
     EventLogger logger;
 
     // Observer attached
