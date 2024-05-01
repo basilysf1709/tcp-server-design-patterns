@@ -1,4 +1,4 @@
-##  Milestone 1 cis_4910 "Research"
+##  Comparing other networking libraries
 
 ### 1. Boost.Asio library (Open Source: [Repository](https://github.com/boostorg/asio))
 - **Description:**  
